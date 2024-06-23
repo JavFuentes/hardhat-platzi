@@ -1,7 +1,12 @@
 // Importamos las librerías necesarias
-const { ethers } = require("hardhat");
+const { ethers, network } = require("hardhat");
 
 async function main() {
+    // Verificamos si estamos conectados a una red, si no, nos conectamos
+    if (!network.provider) {
+        await ethers.provider.send("hardhat_setNetwork", ["sepolia"]);
+    }
+
     // Obtenemos el desplegador de contratos (deployer) utilizando ethers.js
     const [deployer] = await ethers.getSigners();
     console.log("Deployer", deployer);
@@ -22,4 +27,3 @@ async function main() {
       console.error(error);
       process.exit(1);
     });
-  
